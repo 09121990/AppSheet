@@ -1,12 +1,20 @@
+Are updates allowed?
+Are adds, deletes and updates allowed?
+
 SWITCH(USEREMAIL(), 
   "user1@mydomain.com", "UPDATES_ONLY", 
   "user2@mydomain.com", "ALL_CHANGES", 
   "READ_ONLY")
 
 
+✅ Solution (Fix)
+
+You need to change "UPDATES_ONLY" → "ADDS_AND_UPDATES"
+
+✔ Correct Formula:
 SWITCH(
   USEREMAIL(),
-  "bulbulbkash@gmail.com", "ALL_CHANGES",
+  "bulbulahmed@lasertreat.com.bd", "ALL_CHANGES",
   "abiranik4321@gmail.com", "ALL_CHANGES",
-  "UPDATES_ONLY"
+  "ADDS_AND_UPDATES"
 )
