@@ -1,0 +1,78 @@
+const APP_ID = '';
+const API_KEY = '';
+const TABLE_NAME = 'Appointment'; 
+const SHEET_NAME = 'Backup';
+
+function backupAppSheetData() {
+  const url = `https://api.appsheet.com/api/v2/apps/${APP_ID}/tables/${TABLE_NAME}/Action`;
+
+  const payload = {
+    "Action": "Find",
+    "Properties": {
+      "Locale": "en-US",
+      "Selector": `Filter(${TABLE_NAME}, true)`
+    }
+  };
+
+  const options = {
+    method: "post",
+    contentType: "application/json",
+    headers: {
+      "ApplicationAccessKey": API_KEY
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(url, options);
+    const content = response.getContentText();
+    const result = JSON.parse(content);
+
+    let dataToProcess = [];
+    
+    if (Array.isArray(result)) {
+      dataToProcess = result; 
+    } else if (result && result.Rows) {
+      dataToProcess = result.Rows;
+    }
+
+    if (dataToProcess.length > 0) {
+      Logger.log("Success! Found " + dataToProcess.length + " rows.");
+      updateSheet(dataToProcess);
+    } else {
+      Logger.log("No data found in the response.");
+    }
+
+  } catch (e) {
+    Logger.log("Error: " + e.toString());
+  }
+}
+
+// THIS WAS MISSING: The function that actually writes to the Google Sheet
+function updateSheet(data) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  
+  if (!sheet) {
+    Logger.log("Error: Sheet named '" + SHEET_NAME + "' not found. Create a tab named Backup.");
+    return;
+  }
+
+  // Clear old data starting from Row 2
+  if (sheet.getLastRow() > 1) {
+    sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).clearContent();
+  }
+
+  // Get headers from Row 1
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  
+  // Map the AppSheet data to the column order in your Sheet
+  const rows = data.map(record => {
+    return headers.map(header => record[header] !== undefined ? record[header] : "");
+  });
+
+  // Paste the new data
+  sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
+  Logger.log("Spreadsheet updated successfully!");
+}
