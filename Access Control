@@ -18,3 +18,12 @@ SWITCH(
   "abiranik4321@gmail.com", "ALL_CHANGES",
   "ADDS_AND_UPDATES"
 )
+
+
+Option 1: The Spreadsheet Formula (Best for Import)
+Use this formula to generate an 8-character ID that looks exactly like a standard AppSheet UNIQUEID().
+
+The Formula:
+
+Excel
+=LOWER(DEC2HEX(RANDBETWEEN(0, 4294967295), 8))
