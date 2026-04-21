@@ -1,0 +1,40 @@
+✅ Method 1: Use Valid_If (Best & Easy)
+Go to your Phone column → set this formula in Valid_If:
+
+COUNT(
+  SELECT(
+    YourTableName[Phone],
+    [Phone] = [_THIS]
+  )
+) = 0
+🔍 What it does:
+Checks if the entered phone already exists
+If found → ❌ Reject insert
+If not found → ✅ Allow insert
+  
+🔥 Pro Tip (Dynamic message)
+You can even make it dynamic:
+
+"Duplicate: " & [_THIS] & " already exists"
+  
+
+
+⚠️ Important (for Edit case)
+The above formula will block even editing the same row. So use this improved version:
+
+COUNT(
+  SELECT(
+    YourTableName[Phone],
+    AND(
+      [Phone] = [_THIS],
+      [_ROWNUMBER] <> [_THISROW].[_ROWNUMBER]
+    )
+  )
+) = 0
+
+
+
+
+
+
+  
