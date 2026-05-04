@@ -7,31 +7,27 @@ COUNT(
     [Phone] = [_THIS]
   )
 ) = 0
-🔍 What it does:
-Checks if the entered phone already exists
-If found → ❌ Reject insert
-If not found → ✅ Allow insert
-  
-🔥 Pro Tip (Dynamic message)
-You can even make it dynamic:
+---------------------------
 
-"Duplicate: " & [_THIS] & " already exists"
-  
+💡 Better (recommended AppSheet pattern)
 
-
-⚠️ Important (for Edit case)
-The above formula will block even editing the same row. So use this improved version:
-
-COUNT(
+Instead of COUNT, use ISBLANK() for cleaner validation:
+ISBLANK(
   SELECT(
-    YourTableName[Phone],
+    Appointment[Phone_No],
     AND(
-      [Phone] = [_THIS],
-      [_ROWNUMBER] <> [_THISROW].[_ROWNUMBER]
+      [Phone_No] = [_THIS],
+      [Uinique_ID] <> [_THISROW].[Uinique_ID]
     )
   )
-) = 0
+)
 
+🧠 Why this works
+[_THISROW].[Appointment_ID] = current row being edited
+<> excludes itself from duplicate check
+So:
+Add → checks all rows
+Edit → ignores itself, checks others only
 
 
 
