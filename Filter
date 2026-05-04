@@ -1,0 +1,4 @@
+Row filter condition
+True/false expression that checks if a row should be included in the slice
+
+[EntryDateTime] >= (TODAY() - 7)
