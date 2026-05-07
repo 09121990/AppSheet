@@ -1,0 +1,24 @@
+✅ Best Way: Use Security Expression for Delete
+
+Go to:
+
+Data → Tables → (your table) → Are updates allowed?
+
+Then set:
+
+🔥 Option 1 (Recommended: Role-based control)
+
+If you don’t have a role table yet, use emails directly:
+
+OR(
+  IN(
+    USEREMAIL(),
+    LIST(
+      "bulbulahmed@lasertreat.com.bd",
+      "abiranik4321@gmail.com"
+    )
+  )
+)
+
+✔ Only these users can delete
+❌ Others cannot delete at all
