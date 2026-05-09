@@ -1,0 +1,6 @@
+COUNT(
+  SELECT(
+    Appointment[Uinique_ID],
+    [Agent_Name] = [_THISROW].[Name]
+  )
+)
