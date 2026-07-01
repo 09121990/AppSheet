@@ -29,8 +29,16 @@ So:
 Add → checks all rows
 Edit → ignores itself, checks others only
 
-
-
+this is working only new add not working edit time
+ISBLANK(
+  FILTER(
+    "Appointment",
+    AND(
+      [Phone_No] = [_THIS],
+      [Uinique_ID] <> [_THISROW].[Uinique_ID]
+    )
+  )
+)
 
 
   
