@@ -1,0 +1,28 @@
+Final_Remarks_With_Count:
+
+CONCATENATE(
+  [Final_Remarks], 
+  " (", 
+  COUNT(SELECT(Appointment[Uinique_ID], [Final_Remarks] = [_ThisRow].[Final_Remarks])), 
+  ")"
+)
+
+
+IF([Total Lead] > 0, 
+  DECIMAL([Confirm Patient]) / DECIMAL([Total Lead]), 
+  0
+)
+
+
+
+COUNT(
+  SELECT(
+    Appointment[Uinique_ID],
+    AND(
+      [Agent_Name] = [_THISROW].[Name],
+      MONTH([EntryDateTime]) = 7,
+      YEAR([EntryDateTime]) = 2026,
+      [Final_Remarks] = "Cancel"
+    )
+  )
+)
