@@ -26,3 +26,11 @@ COUNT(
     )
   )
 )
+
+
+COUNT(
+  SELECT(
+    Appointment[_RowNumber],
+    [_RowNumber] <= [_ThisRow].[_RowNumber]
+  )
+)
