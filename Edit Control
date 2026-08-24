@@ -22,3 +22,9 @@ OR(
 
 ✔ Only these users can delete
 ❌ Others cannot delete at all
+
+
+OR(
+  [Final_Remarks] <> "Confirm",
+  IN(USEREMAIL(), LIST("bulbulahmed@lasertreat.com.bd", "abiranik4321@gmail.com"))
+)
